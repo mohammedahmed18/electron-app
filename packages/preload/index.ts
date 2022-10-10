@@ -1,5 +1,5 @@
-import { contextBridge, shell } from "electron";
+import os from "os";
 
-contextBridge.exposeInMainWorld("__app", {
-  openExternalUrl: (url: string) => shell.openExternal(url),
-});
+window.__electron = {
+  platform: os.platform(),
+};

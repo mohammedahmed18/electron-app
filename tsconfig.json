@@ -16,6 +16,6 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   },
-  "include": ["packages/renderer"],
+  "include": ["packages/renderer", "packages/shared"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -1,43 +1,62 @@
-// packages/main/src/index.ts
-import { app, BrowserWindow } from "electron";
 import path from "path";
-
-const isSingleInstance = app.requestSingleInstanceLock();
-
-if (!isSingleInstance) {
-  app.quit();
-  process.exit(0);
-}
-
+import { app, BrowserWindow, ipcMain } from "electron";
+import channels from "../shared/lib/ipc-channels";
 const appRoot = path.resolve(__dirname, ".."); // Careful, not future-proof
 
 const rendererDistPath = path.join(appRoot, "renderer");
 const preloadDistPath = path.join(appRoot, "preload");
 
-async function createWindow() {
-  const browserWindow = new BrowserWindow({
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the javascript object is GCed.
+let mainWindow: Electron.BrowserWindow | null = null;
+
+// Quit when all windows are closed
+app.on("window-all-closed", () => {
+  app.quit();
+});
+
+// This method will be called when Electron has finished its
+// initialization and ready to create browser windows.
+app.on("ready", async () => {
+  // Create the browser window
+  mainWindow = new BrowserWindow({
+    title: "Museeks",
+    width: 1130,
+    height: 700,
+    minWidth: 900,
+    minHeight: 550,
+    frame: true,
+    autoHideMenuBar: true,
+    titleBarStyle: "hiddenInset", // MacOS polished window
     show: false,
-    width: 1200,
-    height: 768,
     webPreferences: {
-      webviewTag: false,
-      // Electron current directory will be at `dist/main`, we need to include
-      // the preload script from this relative path: `../preload/index.cjs`.
-      preload: path.join(__dirname, "../preload/index.cjs"),
+      nodeIntegration: true,
+      contextIsolation: false,
+      autoplayPolicy: "no-user-gesture-required",
+      webSecurity: process.env.VITE_DEV_SERVER_URL == null, // FIXME
+      preload: path.join(preloadDistPath, "index.js"),
     },
   });
 
-  // If you install `show: true` then it can cause issues when trying to close the window.
-  // Use `show: false` and listener events `ready-to-show` to fix these issues.
-  // https://github.com/electron/electron/issues/25012
-  browserWindow.on("ready-to-show", () => {
-    browserWindow?.show();
+  // Open dev tools if museeks runs in debug or development mode
+
+  if (
+    process.argv.includes("--devtools") ||
+    process.env.NODE_ENV === "development" ||
+    process.env.VITE_DEV_SERVER_URL
+  ) {
+    mainWindow.webContents.openDevTools({ mode: "detach" });
+  }
+
+  mainWindow.on("closed", () => {
+    // Dereference the window object
+    mainWindow = null;
   });
 
-  // Define the URL to use for the `BrowserWindow`, depending on the DEV env.
-  //   const pageUrl = import.meta.env.DEV
-  //     ? "http://localhost:3000"
-  //     : new URL("../dist/renderer/index.html", `file://${__dirname}`).toString();
+  // Prevent webContents from opening new windows (e.g ctrl-click on link)
+  mainWindow.webContents.setWindowOpenHandler(() => {
+    return { action: "deny" };
+  });
 
   let url: string;
 
@@ -47,32 +66,42 @@ async function createWindow() {
     url = `file://${rendererDistPath}/index.html`;
   }
 
-  await browserWindow.loadURL(url);
-  return browserWindow;
-}
+  mainWindow.loadURL(url);
 
-app.on("second-instance", () => {
-  createWindow().catch((err) =>
-    console.error(
-      "Error while trying to prevent second-instance Electron event:",
-      err
-    )
-  );
-});
+  // only show the window when the app is ready , this will prevent the white flash problem
+  ipcMain.on(channels.APP_READY, () => {
+    if (mainWindow) {
+      mainWindow.show();
+    }
+  });
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+  const gotTheLock = app.requestSingleInstanceLock();
+
+  app.on("second-instance", () => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
+  });
+
+  if (!gotTheLock) {
     app.quit();
   }
+  // Let's list the list of modules we will use for Museeks
+  // ModulesManager.init(
+  //   new AppModule(mainWindow, configModule),
+  //   new PowerModule(mainWindow),
+  //   new ApplicationMenuModule(mainWindow),
+  //   new TrayModule(mainWindow),
+  //   new ThumbarModule(mainWindow),
+  //   new DockMenuModule(mainWindow),
+  //   new SleepBlockerModule(mainWindow),
+  //   new DialogsModule(mainWindow),
+  //   new NativeThemeModule(mainWindow, configModule),
+  //   new DevtoolsModule(mainWindow),
+  //   // Modules used to handle IPC APIs
+  //   new IPCCoverModule(mainWindow),
+  //   new IPCLibraryModule(mainWindow)
+  // ).catch(logger.error);
 });
-
-app.on("activate", () => {
-  createWindow().catch((err) =>
-    console.error("Error while trying to handle activate Electron event:", err)
-  );
-});
-
-app
-  .whenReady()
-  .then(createWindow)
-  .catch((e) => console.error("Failed to create window:", e));
