@@ -1,5 +1,8 @@
 const channels = {
   APP_READY: "APP_READY",
+  WINDOW_MINIMIZE: "WINDOW_MINIMIZE",
+  WINDOW_MAXIMIZE: "WINDOW_MAXIMIZE",
+  WINDOW_CLOSE: "WINDOW_CLOSE",
 };
 
 export default channels;

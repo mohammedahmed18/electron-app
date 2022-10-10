@@ -20,15 +20,16 @@ app.on("window-all-closed", () => {
 app.on("ready", async () => {
   // Create the browser window
   mainWindow = new BrowserWindow({
-    title: "Museeks",
-    width: 1130,
+    title: "Todo app",
+    width: 1235,
     height: 700,
     minWidth: 900,
     minHeight: 550,
-    frame: true,
+    frame: false,
     autoHideMenuBar: true,
     titleBarStyle: "hiddenInset", // MacOS polished window
     show: false,
+    maximizable: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -75,6 +76,27 @@ app.on("ready", async () => {
     }
   });
 
+  // for minimizing the window from the renderer
+  ipcMain.on(channels.WINDOW_MINIMIZE, () => {
+    if (mainWindow) {
+      mainWindow.minimize();
+    }
+  });
+
+  // for maximizing the window from the renderer
+  ipcMain.on(channels.WINDOW_MAXIMIZE, () => {
+    if (mainWindow) {
+      mainWindow.isMaximized() ? mainWindow.restore() : mainWindow.maximize();
+    }
+  });
+
+  // for closing the window from the renderer
+  ipcMain.on(channels.WINDOW_CLOSE, () => {
+    if (mainWindow) {
+      app.exit(0);
+    }
+  });
+
   const gotTheLock = app.requestSingleInstanceLock();
 
   app.on("second-instance", () => {
@@ -88,7 +110,7 @@ app.on("ready", async () => {
   if (!gotTheLock) {
     app.quit();
   }
-  // Let's list the list of modules we will use for Museeks
+
   // ModulesManager.init(
   //   new AppModule(mainWindow, configModule),
   //   new PowerModule(mainWindow),
@@ -103,5 +125,5 @@ app.on("ready", async () => {
   //   // Modules used to handle IPC APIs
   //   new IPCCoverModule(mainWindow),
   //   new IPCLibraryModule(mainWindow)
-  // ).catch(logger.error);
+  // )
 });
