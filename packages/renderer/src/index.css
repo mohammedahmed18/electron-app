@@ -8,10 +8,28 @@ body {
   overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  /* @apply bg-zinc-800; */
 }
 html {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+button {
+  outline: none;
+}
+.btn {
+  @apply outline-0 active:outline-none focus:outline-none;
+}
+.pending {
+  @apply bg-amber-500/70 px-2 py-1 rounded-full;
+}
+
+.success {
+  @apply bg-green-700/70 px-2 py-1 rounded-full;
+}
+
+.urgent {
+  @apply bg-red-700/70 px-2 py-1 rounded-full;
 }

@@ -3,6 +3,8 @@ const channels = {
   WINDOW_MINIMIZE: "WINDOW_MINIMIZE",
   WINDOW_MAXIMIZE: "WINDOW_MAXIMIZE",
   WINDOW_CLOSE: "WINDOW_CLOSE",
+  GET_TASKS: "GET_TASKS",
+  ADD_TASK: "ADD_TASK",
 };
 
 export default channels;

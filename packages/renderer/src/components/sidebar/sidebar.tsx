@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SidebarItem from "../sidebar-item/SidebarItem";
-import { CgNotes } from "react-icons/cg";
+import { CgNotes, CgAppleWatch } from "react-icons/cg";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { TbUrgent } from "react-icons/tb";
 import Spacer from "../spacer/spacer";
@@ -15,9 +15,9 @@ const Sidebar: React.FC = () => {
     <div
       className={`
       duration-500
-      transition-all
+      transition-[width]
       ${expanded ? "w-1/4" : "w-20"}
-      h-screen bg-zinc-900 flex flex-col py-7
+      h-screen bg-zinc-900 flex flex-col
       `}
     >
       <Spacer vertical />
@@ -31,18 +31,24 @@ const Sidebar: React.FC = () => {
         link="/"
         expanded={expanded}
       />
+
+      <SidebarItem
+        Icon={CgAppleWatch}
+        label="pended tasks"
+        link="/"
+        expanded={expanded}
+      />
+
       <SidebarItem
         Icon={TbUrgent}
         label="urgent tasks"
         link="/"
-        color="error"
         expanded={expanded}
       />
       <SidebarItem
         Icon={AiFillCheckCircle}
         label="completed tasks"
         link="/"
-        color="success"
         expanded={expanded}
       />
     </div>

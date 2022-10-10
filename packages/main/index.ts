@@ -1,6 +1,11 @@
 import path from "path";
 import { app, BrowserWindow, ipcMain } from "electron";
 import channels from "../shared/lib/ipc-channels";
+import { init as initModules } from "./lib/module-manager";
+// modules----------------------
+import Database from "./modules/database";
+import TaskModule from "./modules/task";
+
 const appRoot = path.resolve(__dirname, ".."); // Careful, not future-proof
 
 const rendererDistPath = path.join(appRoot, "renderer");
@@ -29,7 +34,6 @@ app.on("ready", async () => {
     autoHideMenuBar: true,
     titleBarStyle: "hiddenInset", // MacOS polished window
     show: false,
-    maximizable: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -111,19 +115,16 @@ app.on("ready", async () => {
     app.quit();
   }
 
-  // ModulesManager.init(
-  //   new AppModule(mainWindow, configModule),
-  //   new PowerModule(mainWindow),
-  //   new ApplicationMenuModule(mainWindow),
-  //   new TrayModule(mainWindow),
-  //   new ThumbarModule(mainWindow),
-  //   new DockMenuModule(mainWindow),
-  //   new SleepBlockerModule(mainWindow),
-  //   new DialogsModule(mainWindow),
-  //   new NativeThemeModule(mainWindow, configModule),
-  //   new DevtoolsModule(mainWindow),
-  //   // Modules used to handle IPC APIs
-  //   new IPCCoverModule(mainWindow),
-  //   new IPCLibraryModule(mainWindow)
-  // )
+  // init the modules
+  // move the db object to the root so it doesn't get garbage collected
+  let db;
+  (async () => {
+    // init the database module first before the other modules
+    const dbModule = await new Database();
+    await initModules(dbModule);
+    db = await dbModule.db;
+
+    // init the other modules
+    await initModules(new TaskModule(db));
+  })();
 });

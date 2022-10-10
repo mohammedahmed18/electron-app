@@ -7,10 +7,7 @@ type props = {
 };
 const ButtonControl = ({ handleClick, className, Icon }: props) => {
   return (
-    <button
-      className={`btn btn-ghost outline-none active:outline-none focus:outline-none ${className}`}
-      onClick={handleClick}
-    >
+    <button className={`btn btn-ghost ${className}`} onClick={handleClick}>
       <Icon />
     </button>
   );
