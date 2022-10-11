@@ -28,7 +28,7 @@ app.on("ready", async () => {
     title: "Todo app",
     width: 1235,
     height: 700,
-    minWidth: 900,
+    minWidth: 1000,
     minHeight: 550,
     frame: false,
     autoHideMenuBar: true,

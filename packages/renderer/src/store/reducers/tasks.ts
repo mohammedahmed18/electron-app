@@ -4,11 +4,13 @@ import { Action, task } from "../../../../shared/lib/types";
 export type TaskState = {
   loading: boolean;
   list: task[];
+  search: string;
 };
 
 const initialState: TaskState = {
   loading: false,
   list: [],
+  search: "",
 };
 
 export default (state = initialState, action: Action) => {

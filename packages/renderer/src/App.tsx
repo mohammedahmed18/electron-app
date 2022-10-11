@@ -22,7 +22,7 @@ function App({ children }: AppProps) {
 
   return (
     <ThemeProvider>
-      <div className="h-screen flex bg-slate-200 dark:bg-zinc-800 ">
+      <div className="h-screen flex bg-slate-200 dark:bg-zinc-800 transition-colors duration-300">
         <Sidebar />
         {/* navbar and the content */}
         <div className="flex flex-col h-screen w-full">

@@ -16,7 +16,7 @@ const Sidebar: React.FC = () => {
       className={`
       duration-500
       transition-[width]
-      dark:bg-zinc-900/60 bg-zinc-900 
+      dark:bg-zinc-900/60 bg-zinc-900
       ${expanded ? "w-1/4" : "w-20 items-center"}
       h-screen flex flex-col
       relative

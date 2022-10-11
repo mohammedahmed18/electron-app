@@ -8,6 +8,29 @@
   </head>
   <body>
     <div id="root"></div>
+    <script defer>
+      function getInitialTheme() {
+        if (typeof window !== "undefined" && window.localStorage) {
+          const theme = window.localStorage.getItem("theme");
+          if (typeof theme === "string") {
+            return theme;
+          }
+
+          //   check user system
+          const userMedia = window.matchMedia("(prefers-color-scheme: dark)");
+          if (userMedia.matches) {
+            return "dark";
+          }
+        }
+        return "light";
+      }
+
+      const theme = getInitialTheme();
+      document.documentElement.classList.add(theme);
+      document.documentElement.classList.remove(
+        theme == "dark" ? "light" : "dark"
+      );
+    </script>
     <script type="module" src="packages/renderer/src/main.tsx"></script>
   </body>
 </html>
