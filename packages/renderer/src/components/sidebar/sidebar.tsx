@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import SidebarItem from "../sidebar-item/SidebarItem";
-import { CgNotes, CgAppleWatch } from "react-icons/cg";
-import { AiFillCheckCircle } from "react-icons/ai";
-import { TbUrgent } from "react-icons/tb";
+
+import { FiFileText, FiCheck, FiWatch, FiBell } from "react-icons/fi";
+
 import Spacer from "../spacer/spacer";
 import ToggleSideBarExpanded from "../toggle-sidebar-expanded/ToggleSideBarExpanded";
 const Sidebar: React.FC = () => {
@@ -16,7 +16,7 @@ const Sidebar: React.FC = () => {
       className={`
       duration-500
       transition-[width]
-      ${expanded ? "w-1/4" : "w-20"}
+      ${expanded ? "w-1/4" : "w-20 items-center"}
       h-screen bg-zinc-900 flex flex-col
       `}
     >
@@ -26,27 +26,27 @@ const Sidebar: React.FC = () => {
         toggleExpanded={toggleExpanded}
       />
       <SidebarItem
-        Icon={CgNotes}
+        Icon={FiFileText}
         label="all tasks"
         link="/"
         expanded={expanded}
       />
 
       <SidebarItem
-        Icon={CgAppleWatch}
+        Icon={FiWatch}
         label="pended tasks"
         link="/"
         expanded={expanded}
       />
 
       <SidebarItem
-        Icon={TbUrgent}
+        Icon={FiBell}
         label="urgent tasks"
         link="/"
         expanded={expanded}
       />
       <SidebarItem
-        Icon={AiFillCheckCircle}
+        Icon={FiCheck}
         label="completed tasks"
         link="/"
         expanded={expanded}

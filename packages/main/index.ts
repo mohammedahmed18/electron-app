@@ -101,6 +101,20 @@ app.on("ready", async () => {
     }
   });
 
+  mainWindow.on("maximize", (event: Event) => {
+    // tell the ui to change the icon to minimize
+    mainWindow.webContents.send("size_changed", {
+      maximized: true,
+    });
+  });
+
+  mainWindow.on("unmaximize", (event: Event) => {
+    // tell the ui to change the icon to maximize
+    mainWindow.webContents.send("size_changed", {
+      maximized: false,
+    });
+  });
+
   const gotTheLock = app.requestSingleInstanceLock();
 
   app.on("second-instance", () => {

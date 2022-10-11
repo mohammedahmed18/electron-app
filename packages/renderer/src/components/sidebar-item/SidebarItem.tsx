@@ -11,7 +11,7 @@ const SidebarItem = ({ Icon, label, link, expanded }: props) => {
     <div>
       <Link
         to={link}
-        className="flex py-3 px-4 whitespace-nowrap overflow-hidden space-x-3 items-center text-lg hover:bg-zinc-800 hover:opacity-100 opacity-75 mx-4 rounded-lg duration-300 mb-2"
+        className="flex items-center py-3 px-4 whitespace-nowrap overflow-hidden space-x-3 text-lg hover:bg-zinc-800 hover:opacity-100 opacity-75 mx-4 rounded-lg duration-300 mb-2"
       >
         <span>
           <Icon />

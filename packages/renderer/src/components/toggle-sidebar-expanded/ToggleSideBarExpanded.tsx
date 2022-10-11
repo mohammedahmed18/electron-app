@@ -1,4 +1,4 @@
-import { TbArrowLeftCircle } from "react-icons/tb";
+import { FiArrowLeft } from "react-icons/fi";
 
 type props = {
   expanded: boolean;
@@ -12,7 +12,7 @@ const ToggleSideBarExpanded = ({ expanded, toggleExpanded }: props) => {
         ${!expanded ? "rotate-180" : null}
     `}
     >
-      <TbArrowLeftCircle />
+      <FiArrowLeft />
     </button>
   );
 };
