@@ -6,6 +6,7 @@ import channels from "../../../../shared/lib/ipc-channels";
 import { useEffect, useState } from "react";
 const WindowControls = () => {
   const [maximized, setMaximized] = useState(false);
+  // ///////////////////
   const onWindowMinimize = () => {
     ipcRenderer.send(channels.WINDOW_MINIMIZE);
   };
@@ -20,9 +21,11 @@ const WindowControls = () => {
   const onWindowSizeChange = (e: Event, param: { maximized: boolean }) => {
     setMaximized(param.maximized);
   };
+  // ////////////////////
   useEffect(() => {
     ipcRenderer.on("size_changed", onWindowSizeChange);
   }, []);
+  // ////////////////////
   return (
     <div className="flex space-x-3 mx-1">
       <ButtonControl Icon={FiMinus} handleClick={onWindowMinimize} />

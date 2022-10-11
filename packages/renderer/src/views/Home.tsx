@@ -11,7 +11,8 @@ const Home: React.FC = () => {
   useEffect(() => {}, []);
   return (
     <>
-      <h1 className="text-3xl text-white/40">All tasks</h1>
+      <h1 className="text-3xl text-black/40 dark:text-white/40">All tasks</h1>
+      {loading && <span className="font-bold mt-3">loading...</span>}
       <TasksList tasks={tasks} />
     </>
   );

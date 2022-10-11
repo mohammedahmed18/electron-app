@@ -16,8 +16,10 @@ const Sidebar: React.FC = () => {
       className={`
       duration-500
       transition-[width]
+      dark:bg-zinc-900/60 bg-zinc-900 
       ${expanded ? "w-1/4" : "w-20 items-center"}
-      h-screen bg-zinc-900 flex flex-col
+      h-screen flex flex-col
+      relative
       `}
     >
       <Spacer vertical />
@@ -25,6 +27,7 @@ const Sidebar: React.FC = () => {
         expanded={expanded}
         toggleExpanded={toggleExpanded}
       />
+
       <SidebarItem
         Icon={FiFileText}
         label="all tasks"
