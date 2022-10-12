@@ -13,6 +13,7 @@ const Home: React.FC = () => {
     <>
       <h1 className="text-3xl text-black/40 dark:text-white/40">All tasks</h1>
       {loading && <span className="font-bold mt-3">loading...</span>}
+      {tasks.length === 0 && <p className="text-2xl my-4">No tasks yet</p>}
       <TasksList tasks={tasks} />
     </>
   );

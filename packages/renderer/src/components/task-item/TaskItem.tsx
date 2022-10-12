@@ -1,11 +1,15 @@
 import { task } from "../../../../../packages/shared/lib/types";
-
+import { motion } from "framer-motion";
 type props = {
   task: task;
 };
 const TaskItem = ({ task }: props) => {
   return (
-    <div className="shadow-xl p-4 rounded-lg mb-4 flex flex-col justify-between">
+    <motion.div
+      initial={{ y: "-100%" }}
+      animate={{ y: 0 }}
+      className="shadow-xl p-4 rounded-lg mb-4 flex flex-col justify-between"
+    >
       <div className="flex items-center space-x-3">
         <h2 className="font-medium text-zinc-800 dark:text-zinc-300 text-xl">
           {task.text}
@@ -18,7 +22,7 @@ const TaskItem = ({ task }: props) => {
       <span className="mt-4 p-2 rounded-lg text-cyan-700 bg-cyan-900/10 inline mr-auto">
         {new Date(task.date).toDateString()}
       </span>
-    </div>
+    </motion.div>
   );
 };
 

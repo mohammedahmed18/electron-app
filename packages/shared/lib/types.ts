@@ -1,11 +1,11 @@
 import { TASK_STATUS } from "../../shared/constants/TASK_STATUS";
 
 export type task = {
-  _id: string;
+  _id?: string;
+  date?: number;
   text: string;
   description: string;
-  status: TASK_STATUS;
-  date: number;
+  status: `${TASK_STATUS}`;
 };
 
 export type Action = {

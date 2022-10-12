@@ -22,7 +22,13 @@ export default (state = initialState, action: Action) => {
         loading: false,
       };
     }
-
+    case types.ADD_TASK: {
+      const list = [action.payload, ...state.list];
+      return {
+        ...state,
+        list,
+      };
+    }
     default: {
       return state;
     }

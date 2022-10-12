@@ -1,3 +1,4 @@
 export const LOAD_TASKS = "GET_TASKS";
 export const START_TASKS_LOADING = "START_TASKS_LOADING";
 export const STOP_TASKS_LOADING = "STOP_TASKS_LOADING";
+export const ADD_TASK = "ADD_TASK";

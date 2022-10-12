@@ -26,7 +26,7 @@ button {
   @apply bg-amber-600/70 px-2 py-1 rounded-full;
 }
 
-.success {
+.completed {
   @apply bg-green-700/70 px-2 py-1 rounded-full;
 }
 

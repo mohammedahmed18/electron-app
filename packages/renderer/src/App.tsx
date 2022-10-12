@@ -7,7 +7,7 @@ import Sidebar from "./components/sidebar/sidebar";
 import Navbar from "./components/navbar/navbar";
 import { loadTasks } from "./store/actions/tasks";
 import { ThemeProvider } from "./contexts/themeContext";
-
+import AddTaskModal from "./components/modals/addTask";
 interface AppProps {
   children: React.ReactNode;
 }
@@ -27,7 +27,8 @@ function App({ children }: AppProps) {
         {/* navbar and the content */}
         <div className="flex flex-col h-screen w-full">
           <Navbar />
-          <div className="flex-1 w-full px-10 py-5 overflow-y-auto">
+          <div className="flex-1 w-full px-10 py-5 relative">
+            <AddTaskModal />
             <Scrollbars autoHide autoHideTimeout={1000}>
               <main>{children}</main>
             </Scrollbars>

@@ -13,6 +13,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
     "bson": "^4.7.0",
+    "framer-motion": "^7.5.3",
     "level-js": "^6.1.0",
     "linvodb3": "^3.26.0",
     "rc-scrollbars": "^1.1.5",

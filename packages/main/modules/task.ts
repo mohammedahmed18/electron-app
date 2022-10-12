@@ -14,7 +14,7 @@ export default class Task extends Module {
   async load(): Promise<void> {
     // get all tasks
     ipcMain.handle(channels.GET_TASKS, async (e: Event) => {
-      const tasks = await this.db.objects(TASK_COLLECTION);
+      const tasks = await this.db.objects(TASK_COLLECTION).sorted("date", true);
 
       return tasks.toJSON();
     });
@@ -32,14 +32,16 @@ export default class Task extends Module {
 
     // add a new task
     ipcMain.handle(channels.ADD_TASK, async (e: Event, task: task) => {
+      let createdTask = null;
       this.db.write(() => {
-        const createdTask = this.db.create(TASK_COLLECTION, {
+        const newTask = this.db.create(TASK_COLLECTION, {
           _id: new Realm.BSON.ObjectID(),
-          date: new Date(),
+          date: new Date().valueOf(),
           ...task,
         });
-        return createdTask;
+        createdTask = newTask;
       });
+      return JSON.stringify(createdTask, null, 1);
     });
   }
 }
